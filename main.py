@@ -60,6 +60,7 @@ if st.button("Згенерувати текст", key="generate_button") and use
         st.text_area("Результат", value=result, height=300, key="result_area")
        
 elif st.button("Очистити", key="clear_button"):
+    st.session_state.user_text = ""
     st.experimental_rerun()
 
 elif user_input == "":
