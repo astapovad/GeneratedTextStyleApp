@@ -21,7 +21,6 @@ prompt_styles = {
 user_input = st.text_area("Введіть свій текст:")
 
 if st.button("Згенерувати текст"):
-     st.session_state["Згенерувати текст"] = True
     if user_input:
         full_prompt = f"{prompt_styles[style]} {user_input}"
         with st.spinner("Генерується..."):
