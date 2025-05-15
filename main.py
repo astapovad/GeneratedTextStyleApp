@@ -17,6 +17,7 @@ ___________________________
 ___________________________
 
 Ви отримаєте граматично правильний та стильово адаптований результат українською мовою 🩷
+Також можна зберегти текст у форматі .txt
 
 Автор: Астапова Дар'я
 """)
@@ -54,7 +55,7 @@ if st.button("Згенерувати текст", key="generate_button") and use
         )
         result = response.choices[0].message.content
 
-        st.download_button("📋 Копіювати текст", result, file_name="zghenerovanyi_tekst.txt", key="copy_button")
+        st.download_button("Зберегти", result, file_name="zghenerovanyi_tekst.txt", key="copy_button")
         st.subheader("Згенерований текст:")
         st.text_area("Результат", value=result, height=300, key="result_area")
        
