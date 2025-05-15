@@ -1,9 +1,10 @@
 import streamlit as st
-import openai
+from openai import OpenAI
 
-openai.api_key = st.secrets["openai_api_key"]
+client = OpenAI(api_key=st.secrets["openai_api_key"])
 
 st.title("Генератор тексту у вибраному стилі")
+
 style = st.selectbox(
     "Оберіть стиль тексту:",
     ["Офіційний", "Креативний", "Науковий", "Простий", "Мотиваційний"]
@@ -18,15 +19,16 @@ prompt_styles = {
 }
 
 user_input = st.text_area("Введіть свій текст:")
+
 if st.button("Згенерувати текст"):
     if user_input:
         full_prompt = f"{prompt_styles[style]} {user_input}"
         with st.spinner("Генерується..."):
-            response = openai.ChatCompletion.create(
+            response = client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[{"role": "user", "content": full_prompt}]
             )
             st.subheader("Згенерований текст:")
-            st.write(response["choices"][0]["message"]["content"])
+            st.write(response.choices[0].message.content)
     else:
         st.warning("Будь ласка, введіть текст.")
