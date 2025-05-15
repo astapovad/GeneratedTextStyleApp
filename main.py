@@ -52,7 +52,11 @@ if st.button("Згенерувати текст"):
                 max_tokens = 1000 ,
                 temperature = 0.8
             )
+            result = response.choices[0].message.content
+
             st.subheader("Згенерований текст:")
-            st.write(response.choices[0].message.content)
+            st.text_area("Результат", value=result, height=300, key="result_area")
+
+            st.download_button("📋 Копіювати текст", result, file_name="zghenerovanyi_tekst.txt")
     else:
         st.warning("Будь ласка, введіть текст.")
