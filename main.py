@@ -21,14 +21,22 @@ ___________________________
 Автор: Астапова Дар'я
 """)
 
-# Ініціалізуємо session_state для тексту
+# ---------- 1. Створюємо змінні в session_state ----------
 if "user_text" not in st.session_state:
     st.session_state.user_text = ""
+if "generated_text" not in st.session_state:
+    st.session_state.generated_text = ""
 
+# ---------- 2. Кнопка Очистити перед textarea ----------
+if st.button("Очистити"):
+    st.session_state.user_text = ""
+    st.session_state.generated_text = ""
+    st.experimental_rerun()
+
+# ---------- 3. Ввід тексту ----------
 style = st.selectbox(
     "Оберіть стиль тексту:",
-    ["Офіційний", "Креативний", "Науковий", "Академічний", "Формальний", "Мотиваційний", "Розповідь"],
-    key="style_select"
+    ["Офіційний", "Креативний", "Науковий", "Академічний", "Формальний", "Мотиваційний", "Розповідь"]
 )
 
 prompt_styles = {
@@ -41,12 +49,17 @@ prompt_styles = {
     "Розповідь": "Напиши цей текст у форматі вигаданої історії, це може бути казка чи фанфікшн:"
 }
 
-# Поле вводу з прив’язкою до session_state
-st.session_state.user_text = st.text_area("Введіть свій текст:", value=st.session_state.user_text, key="text_area")
+# Поле вводу керується через session_state
+st.session_state.user_text = st.text_area(
+    "Введіть свій текст:",
+    value=st.session_state.user_text,
+    height=200,
+    key="text_area"
+)
 
-# Кнопка Згенерувати
-if st.button("Згенерувати текст", key="generate_button") and st.session_state.user_text:
-    full_prompt = f"{prompt_styles[style]} {st.session_state.user_text}"
+# ---------- 4. Генерація тексту ----------
+if st.button("Згенерувати текст") and st.session_state.user_text.strip():
+    full_prompt = f"{prompt_styles[style]} {st.session_state.user_text.strip()}"
     with st.spinner("Генерується..."):
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
@@ -58,13 +71,10 @@ if st.button("Згенерувати текст", key="generate_button") and st.
             max_tokens=1000,
             temperature=0.8
         )
-        result = response.choices[0].message.content
+        st.session_state.generated_text = response.choices[0].message.content
 
-        st.subheader("Згенерований текст:")
-        st.text_area("Результат", value=result, height=300, key="result_area")
-        st.download_button("📋 Копіювати текст", result, file_name="zghenerovanyi_tekst.txt", key="copy_button")
-
-# Кнопка Очистити
-if st.button("Очистити", key="clear_button"):
-    st.session_state.user_text = ""
-    st.experimental_rerun()
+# ---------- 5. Вивід результату ----------
+if st.session_state.generated_text:
+    st.subheader("Згенерований текст:")
+    st.text_area("Результат", value=st.session_state.generated_text, height=300, key="result_area")
+    st.download_button("📋 Копіювати текст", st.session_state.generated_text, file_name="zghenerovanyi_tekst.txt")
