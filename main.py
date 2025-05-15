@@ -38,6 +38,12 @@ prompt_styles = {
 
 user_input = st.text_area("Введіть свій текст:")
 
+if "generate" not in st.session_state:
+    st.session_state.generate = False
+
+if st.button("Згенерувати текст"):
+    st.session_state.generate = True
+
 if st.button("Згенерувати текст"):
     if user_input:
         full_prompt = f"{prompt_styles[style]} {user_input}"
@@ -61,3 +67,4 @@ if st.button("Згенерувати текст"):
             st.download_button("📋 Копіювати текст", result, file_name="zghenerovanyi_tekst.txt")
     else:
         st.warning("Будь ласка, введіть текст.")
+    st.session_state.generate = False
