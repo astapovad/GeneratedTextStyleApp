@@ -27,12 +27,6 @@ if "user_text" not in st.session_state:
 if "generated_text" not in st.session_state:
     st.session_state.generated_text = ""
 
-# ---------- 2. Кнопка Очистити перед textarea ----------
-if st.button("Очистити"):
-    st.session_state.user_text = ""
-    st.session_state.generated_text = ""
-    st.experimental_rerun()
-
 # ---------- 3. Ввід тексту ----------
 style = st.selectbox(
     "Оберіть стиль тексту:",
@@ -72,6 +66,13 @@ if st.button("Згенерувати текст") and st.session_state.user_text
             temperature=0.8
         )
         st.session_state.generated_text = response.choices[0].message.content
+
+# ---------- 2. Кнопка Очистити перед textarea ----------
+if st.button("Очистити"):
+    st.session_state.user_text = ""
+    st.session_state.generated_text = ""
+    st.experimental_rerun()
+
 
 # ---------- 5. Вивід результату ----------
 if st.session_state.generated_text:
