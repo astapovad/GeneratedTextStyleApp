@@ -61,10 +61,10 @@ if st.button("Згенерувати текст"):
             result = response.choices[0].message.content
 
             st.subheader("Згенерований текст:")
+            
             st.text_area("Результат", value=result, height=300, key="result_area")
+            st.download_button("📋 Копіювати текст", result, file_name="zghenerovanyi_tekst.txt", key="copy_button")
 
-    
-            st.download_button("📋 Копіювати текст", result, file_name="zghenerovanyi_tekst.txt")
     else:
         st.warning("Будь ласка, введіть текст.")
     st.session_state.generate = False
