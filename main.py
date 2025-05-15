@@ -54,10 +54,10 @@ if st.button("Згенерувати текст", key="generate_button") and use
         )
         result = response.choices[0].message.content
 
+        st.download_button("📋 Копіювати текст", result, file_name="zghenerovanyi_tekst.txt", key="copy_button")
         st.subheader("Згенерований текст:")
         st.text_area("Результат", value=result, height=300, key="result_area")
-        st.download_button("📋 Копіювати текст", result, file_name="zghenerovanyi_tekst.txt", key="copy_button")
-
+       
 elif st.button("Очистити", key="clear_button"):
     st.experimental_rerun()
 
