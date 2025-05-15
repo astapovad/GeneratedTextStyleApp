@@ -31,8 +31,6 @@ if st.button("Згенерувати текст"):
                     {"role": "system", "content": "Усі речення мають бути логічно зв’язані, лексика – відповідна до стилю, а пунктуація – коректною."},
                     {"role": "user", "content": full_prompt}
                 ]
-                max_tokens=1000,
-                temperature=0.8
             )
             st.subheader("Згенерований текст:")
             st.write(response.choices[0].message.content)
