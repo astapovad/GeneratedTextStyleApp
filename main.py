@@ -17,10 +17,13 @@ ___________________________
 ___________________________
 
 Ви отримаєте граматично правильний та стильово адаптований результат українською мовою 🩷
-Також можна зберегти текст у форматі .txt
 
 Автор: Астапова Дар'я
 """)
+
+# Ініціалізуємо session_state для тексту
+if "user_text" not in st.session_state:
+    st.session_state.user_text = ""
 
 style = st.selectbox(
     "Оберіть стиль тексту:",
@@ -38,10 +41,12 @@ prompt_styles = {
     "Розповідь": "Напиши цей текст у форматі вигаданої історії, це може бути казка чи фанфікшн:"
 }
 
-user_input = st.text_area("Введіть свій текст:", key="user_text")
+# Поле вводу з прив’язкою до session_state
+st.session_state.user_text = st.text_area("Введіть свій текст:", value=st.session_state.user_text, key="text_area")
 
-if st.button("Згенерувати текст", key="generate_button") and user_input:
-    full_prompt = f"{prompt_styles[style]} {user_input}"
+# Кнопка Згенерувати
+if st.button("Згенерувати текст", key="generate_button") and st.session_state.user_text:
+    full_prompt = f"{prompt_styles[style]} {st.session_state.user_text}"
     with st.spinner("Генерується..."):
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
@@ -55,13 +60,11 @@ if st.button("Згенерувати текст", key="generate_button") and use
         )
         result = response.choices[0].message.content
 
-        st.download_button("Зберегти", result, file_name="zghenerovanyi_tekst.txt", key="copy_button")
         st.subheader("Згенерований текст:")
         st.text_area("Результат", value=result, height=300, key="result_area")
-       
-elif st.button("Очистити", key="clear_button"):
+        st.download_button("📋 Копіювати текст", result, file_name="zghenerovanyi_tekst.txt", key="copy_button")
+
+# Кнопка Очистити
+if st.button("Очистити", key="clear_button"):
     st.session_state.user_text = ""
     st.experimental_rerun()
-
-elif user_input == "":
-    st.warning("Будь ласка, введіть текст.")
