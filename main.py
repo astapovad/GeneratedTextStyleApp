@@ -3,7 +3,7 @@ from openai import OpenAI
 
 client = OpenAI(api_key=st.secrets["openai_api_key"])
 
-st.title("Генератор тексту у вибраному стилі")
+st.title("Стильовий генератор тексту")
 
 style = st.selectbox(
     "Оберіть стиль тексту:",
