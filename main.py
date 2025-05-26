@@ -79,3 +79,6 @@ if st.session_state.generated_text:
     st.subheader("Згенерований текст:")
     st.text_area("Результат", value=st.session_state.generated_text, height=300, key="result_area")
     st.download_button("📋 Зберегти текст", st.session_state.generated_text, file_name="zghenerovanyi_tekst.txt")
+
+else:
+        st.warning("Будь ласка, введіть текст.")
