@@ -27,7 +27,7 @@ if "user_text" not in st.session_state:
 if "generated_text" not in st.session_state:
     st.session_state.generated_text = ""
 
-# ---------- 3. Ввід тексту ----------
+# ---------- 2. Ввід тексту ----------
 style = st.selectbox(
     "Оберіть стиль тексту:",
     ["Офіційний", "Креативний", "Науковий", "Академічний", "Формальний", "Мотиваційний", "Розповідь"]
@@ -51,7 +51,7 @@ st.session_state.user_text = st.text_area(
     key="text_area"
 )
 
-# ---------- 4. Генерація тексту ----------
+# ---------- 3. Генерація тексту ----------
 if st.button("Згенерувати текст") and st.session_state.user_text.strip():
     full_prompt = f"{prompt_styles[style]} {st.session_state.user_text.strip()}"
     with st.spinner("Генерується..."):
@@ -67,7 +67,7 @@ if st.button("Згенерувати текст") and st.session_state.user_text
         )
         st.session_state.generated_text = response.choices[0].message.content
 
-# ---------- 2. Кнопка Очистити перед textarea ----------
+# ---------- 4. Кнопка Очистити перед textarea ----------
 if st.button("Очистити"):
     st.session_state.user_text = ""
     st.session_state.generated_text = ""
